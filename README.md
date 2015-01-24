@@ -356,6 +356,7 @@ Copy the content of the ISO image to the USB device.
 ```
 # mkdir /mnt/usb/systemrescuecd
 # cp -a /mnt/srcd/* /mnt/usb/systemrescuecd && sync
+# umount /mnt/srcd
 ```
 
 Edit the Syslinux configuration file on the device, and add the following entry.
@@ -397,5 +398,82 @@ safely be ignored.)
 ```
 # mv /mnt/usb/systemrescuecd/sysrcd.dat /mnt/usb
 ```
+
+You can now test the setup, see __Test sample configuration__.
+
+
+## Install ArchLinux
+
+This guide is based on
+wiki.archlinux.org/index.php/USB_flash_installation_media#Using_manual_formatting
+.
+
+Get the latest version of the ArchLinux ISO image from www.archlinux.org .
+
+Mount the ISO image.
+
+```
+# mkdir /mnt/archiso
+# mount /path/to/archlinux-2015.01.01-dual.iso /mnt/archiso
+```
+
+Make sure the USB device is mounted.
+Copy the content of the ISO image to the USB device.
+
+```
+# mkdir /mnt/usb/archlinux
+# cp -a /mnt/archiso/* /mnt/usb/archlinux && sync
+# umount /mnt/archiso
+```
+
+Add the follwoing entry to the Syslinux configuration file on the USB device.
+
+```
+LABEL arch
+  MENU LABEL Arch Linux
+  TEXT HELP
+  Run the Arch Linux Live distribution.
+  ENDTEXT
+  CONFIG /archlinux/arch/boot/syslinux/archiso.cfg
+  APPEND /archlinux/arch/
+```
+
+We additionally need to modify some of the ArchLinux files.
+
+#### BIOS Boot
+
+Edit `/mnt/usb/archlinux/arch/boot/syslinux/archiso_sys32.cfg` and replace
+
+```
+APPEND archisobasedir=arch archisolabel=ARCH_201501
+```
+
+by
+
+```
+APPEND archisobasedir=archlinux/arch archisodevice=/dev/disk/by-uuid/<UUID>
+```
+
+where `<UUID>` is the UUID of the USB device partition.
+Repeat this procedure for
+`/mnt/usb/archlinux/arch/boot/syslinux/archiso_sys64.cfg` .
+
+You can now test the setup, see __Test sample configuration__.
+
+#### EFI Boot (not tested)
+
+Edit `/mnt/usb/archlinux/loader/entries/archiso-x86_64.conf` and replace
+
+```
+options archisobasedir=arch archisolabel=ARCH_201501
+```
+
+by
+
+```
+options archisobasedir=archlinux/arch archisodevice=/dev/disk/by-uuid/<UUID>
+```
+
+where `<UUID>` is the UUID of the USB device partition.
 
 You can now test the setup, see __Test sample configuration__.
