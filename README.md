@@ -194,7 +194,7 @@ device.
 ```
 
 
-### Deploy a sample configuration and test
+### Deploy a sample configuration
 
 To check that nothing went wrong to this point, we deploy a sample Syslinux
 configuration file.
@@ -257,11 +257,14 @@ LABEL poweroff
   COM32 poweroff.c32
 ```
 
-Now unmount the device.
+Unmount the device.
 
 ```
 # umount /mnt/usb
 ```
+
+
+### Test sample configuration
 
 Leave the USB drive plugged in. Restart your computer and make sure that the USB
 drive has the highest boot priority.
