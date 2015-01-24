@@ -299,3 +299,44 @@ The USB device should be booted, and you are shown the following table:
 If this is not the case, make sure you followed the guide correctly.  If it
 still does not work, feel free to open a new Issue and explain in detail what is
 going wrong.
+
+
+## Install Memtest86+
+
+Download __Memtest86+__ from http://www.memtest.org/.  (Some distributions
+already ship with a version of Memtest86+.)
+
+Mount the USB device.
+
+```
+# mount /dev/sdX1 /mnt/usb
+```
+
+Copy Memtest86+ to the USB device.
+(I am not sure whether `memtest.bin` must be executable...)
+
+```
+# mkdir -p /mnt/usb/memtest86+
+# cp path/to/memtest.bin /mnt/usb/memtest86+
+```
+
+Open the Syslinux configuration file on the USB device.
+
+```
+# vim /mnt/usb/boot/syslinux/syslinux.cfg
+```
+
+Add the following entry to the file.  (The entries are displayed from top to
+bottom.  You can freely choose the order.)
+
+```
+LABEL memtest
+  MENU LABEL Memtest86+
+  TEXT HELP
+  Run memory failure detection.
+  ENDTEXT
+  LINUX /memtest86+/memtest.bin
+```
+
+Save and exit the file.  You can now test the setup, see __Test sample
+configuration__.
