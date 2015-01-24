@@ -3,14 +3,14 @@ Setting up a bootable USB drive with multiple OS using Syslinux
 
 The USB drive will have only a single partition. (I have tried using multiple
 partitions and chainloading them, but it did not work.)
-For the remainder of this guide, I will reference to the USB device with
-`/dev/sdX` and the first (and only) partition on this device as `/dev/sdX1`.
+For the remainder of this guide, I will refer to the USB device with
+`/dev/sdX` and to the first (and only) partition on this device as `/dev/sdX1`.
 
-# Prepare the USB drive
+## Prepare the USB drive
 
 Make sure the USB device is __not__ mounted.
 
-## Partitioning
+### Partitioning
 
 We start with partitioning our USB device.  Run `fdisk` on the device.
 
@@ -118,7 +118,7 @@ Syncing disks.
 ```
 
 
-# Create the filesystem
+## Create the filesystem
 
 We now create a MS-DOS FAT32 filesystem on the partition.
 Replace `<LABEL>` by a name of your choice.
@@ -135,7 +135,7 @@ If there is a warning/error in the output, try again with the `-c` option.
 ```
 
 
-# Install Syslinux bootloader on the device
+## Install Syslinux bootloader on the device
 
 Mount the device.
 
@@ -151,7 +151,7 @@ Create a directory for syslinux.
 ```
 
 
-## Copy required c32 modules
+### Copy required c32 modules
 
 Copy necessary c32 modules.  (I am a lazy person, I just copy all the c32
 modules.  One could identify the actually used modules, but since storage
@@ -171,7 +171,7 @@ modules.
 ```
 
 
-## Install Syslinux
+### Install Syslinux
 
 Install Syslinux on the partition.  With the `--directory` option we specify a
 relative path to where the Syslinux binary is placed.
@@ -181,7 +181,7 @@ relative path to where the Syslinux binary is placed.
 ```
 
 
-## Write MBR
+### Write MBR
 
 To make the device bootable, we need to write the Master Boot Record of the
 device.
@@ -194,7 +194,7 @@ device.
 ```
 
 
-## Deploy a sample configuration and test
+### Deploy a sample configuration and test
 
 To check that nothing went wrong to this point, we deploy a sample Syslinux
 configuration file.
