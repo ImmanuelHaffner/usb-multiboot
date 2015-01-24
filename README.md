@@ -1,6 +1,16 @@
 Setting up a bootable USB drive with multiple OS using Syslinux
 =====
 
+1. Prepare the USB drive
+  1. Partitioning
+  2. Create the filesystem
+2. Install Syslinux bootloader on the device
+  1. Copy required c32 modules
+  2. Install Syslinux
+  3. Write MBR
+  4. Deploy a sample configuration
+  5. Test sample configuration
+
 The USB drive will have only a single partition. (I have tried using multiple
 partitions and chainloading them, but it did not work.)
 For the remainder of this guide, I will refer to the USB device with
@@ -23,7 +33,7 @@ Be careful before using the write command.
 ```
 
 When prompted for a command, create a new __DOS partition table__.
-(Syslinux requires DOS partitons.)
+(Syslinux requires DOS partitions.)
 
 ```
 Command (m for help): o
@@ -118,7 +128,7 @@ Syncing disks.
 ```
 
 
-## Create the filesystem
+### Create the filesystem
 
 We now create a MS-DOS FAT32 filesystem on the partition.
 Replace `<LABEL>` by a name of your choice.
@@ -144,7 +154,7 @@ Mount the device.
 # mount /dev/sdX1 /mnt/usb
 ```
 
-Create a directory for syslinux.
+Create a directory for Syslinux.
 
 ```
 # mkdir -p /mnt/usb/boot/syslinux
