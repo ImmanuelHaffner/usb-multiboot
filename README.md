@@ -347,7 +347,7 @@ Mount the ISO image.
 
 ```
 # mkdir /mnt/srcd
-# mount /run/media/Multimedia/Programmkopien/systemrescuecd-x86-4.4.1.iso /mnt/srcd
+# mount /path/to/systemrescuecd-x86-4.4.1.iso /mnt/srcd
 ```
 
 Make sure the USB device is mounted.
