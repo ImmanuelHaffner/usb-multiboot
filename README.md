@@ -306,11 +306,7 @@ going wrong.
 Download __Memtest86+__ from http://www.memtest.org/.  (Some distributions
 already ship with a version of Memtest86+.)
 
-Mount the USB device.
-
-```
-# mount /dev/sdX1 /mnt/usb
-```
+Make sure the USB device is mounted.
 
 Copy Memtest86+ to the USB device.
 (I am not sure whether `memtest.bin` must be executable...)
@@ -340,3 +336,66 @@ LABEL memtest
 
 Save and exit the file.  You can now test the setup, see __Test sample
 configuration__.
+
+
+## Install SystemRescueCd
+
+Download the latest version of the __SystemRescueCd__ ISO image from
+http://www.sysresccd.org .
+
+Mount the ISO image.
+
+```
+# mkdir /mnt/srcd
+# mount /run/media/Multimedia/Programmkopien/systemrescuecd-x86-4.4.1.iso /mnt/srcd
+```
+
+Make sure the USB device is mounted.
+Copy the content of the ISO image to the USB device.
+
+```
+# mkdir /mnt/usb/systemrescuecd
+# cp -a /mnt/srcd/* /mnt/usb/systemrescuecd && sync
+```
+
+Edit the Syslinux configuration file on the device, and add the following entry.
+
+```
+MENU BEGIN
+  MENU TITLE SystemRescueCd
+
+  LABEL 32bit
+  MENU LABEL SystemRescueCd (32-bit)
+  TEXT HELP
+  Live system running X that offers many repair tools.
+  ENDTEXT
+  LINUX /systemrescuecd/isolinux/rescue32
+  INITRD /systemrescuecd/isolinux/initram.igz
+
+  LABEL 64bit
+  MENU LABEL SystemRescueCd (64-bit)
+  TEXT HELP
+  Live system running X that offers many repair tools.
+  ENDTEXT
+  LINUX /systemrescuecd/isolinux/rescue64
+  INITRD /systemrescuecd/isolinux/initram.igz
+
+  LABEL back
+  MENU LABEL Back
+  MENU EXIT
+MENU END
+```
+
+Save and exit the file.
+
+SystemRescueCd will look for the file `sysrcd.dat` under the root directory of
+the partition.  Therefore, we will move that file such that SystemRescueCd is
+able to find it.  (This little hack will cause a warning during the boot process
+of SystemRescueCd, reporting that the md5sum did not match.  This warning can
+safely be ignored.)
+
+```
+# mv /mnt/usb/systemrescuecd/sysrcd.dat /mnt/usb
+```
+
+You can now test the setup, see __Test sample configuration__.
