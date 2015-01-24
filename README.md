@@ -30,8 +30,8 @@ Command (m for help): o
 Created a new DOS disklabel with disk identifier 0x9c4e2fab.
 ```
 
-We now have an empty DOS partition table.  Now create a single partition that
-spans the whole device.  After typing `n` just press *ENTER* to use the default
+We now have an empty DOS partition table.  Create a single partition that spans
+the whole device.  After typing `n` just press *ENTER* to use the default
 options.
 
 ```
