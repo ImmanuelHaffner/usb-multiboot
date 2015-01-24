@@ -552,7 +552,7 @@ you can specify a splash screen image to display.
 
 The article
 http://superuser.com/questions/740448/multiple-windows-installers-on-a-usb-stick
-expplains in detail how to create a bootable USB drive with a bootable Windows
+explains in detail how to create a bootable USB drive with a bootable Windows
 without extra partitions and without the use of MEMDISK.
 Make sure to read both the question and the answer.
 
