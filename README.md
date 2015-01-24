@@ -519,6 +519,11 @@ Install MEMDISK on the USB device.  (Memdisk is included in Syslinux.)
 Add the follwoing entry to the Syslinux configuration file on the USB device.
 
 ```
+LABEL win7
+  MENU LABEL Windows 7
+  KERNEL /boot/memdisk/memdisk
+  INITRD /Windows7.iso
+  APPEND raw iso
 ```
 
 If you now select to boot the Windows ISO image from the Syslinux screen, the
