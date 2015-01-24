@@ -10,6 +10,16 @@ Setting up a bootable USB drive with multiple OS using Syslinux
   3. Write MBR
   4. Deploy a sample configuration
   5. Test sample configuration
+3. Install Memtest86+
+4. Install SystemRescueCd
+5. Install ArchLinux
+  1. BIOS Boot
+  2. EFI Boot
+6. Install Windows (MEMDISK)
+7. Further remarks
+  1. Syslinux commands
+  2. Windows ISO Images without using MEMDISK
+
 
 The USB drive will have only a single partition. (I have tried using multiple
 partitions and chainloading them, but it did not work.)
@@ -477,3 +487,73 @@ options archisobasedir=archlinux/arch archisodevice=/dev/disk/by-uuid/<UUID>
 where `<UUID>` is the UUID of the USB device partition.
 
 You can now test the setup, see __Test sample configuration__.
+
+
+## Install Windows (MEMDISK)
+
+This guide explains how to install __Windows 7__ on the USB drive such that
+Syslinux is able to chainload it.
+
+However, there is a major problem: the bootloader for Windows (bootmgr) assumes
+the Windows files to reside in the root directory of the partition.  Therefore
+it is impossible to chainload the extracted ISO image.
+
+To circumvent this issue, we will place the full Windows 7 ISO image on the USB
+device, and use MEMDISK to mount it to RAM and boot it.
+
+Make sure the USB device is mounted.
+
+Copy the Windows 7 ISO image to your USB device.
+
+```
+# mount /path/to/Windows7.iso /mnt/usb && sync
+```
+
+Install MEMDISK on the USB device.  (Memdisk is included in Syslinux.)
+
+```
+# mkdir /mnt/usb/boot/memdisk
+# cp /path/to/memdisk /mnt/usb/boot/memdisk
+```
+
+Add the follwoing entry to the Syslinux configuration file on the USB device.
+
+```
+```
+
+If you now select to boot the Windows ISO image from the Syslinux screen, the
+ISO image will be loaded to a RAMDISK.  This can take an extremely long time, be
+patient.  Remember that Windows requires you to press a key in order to trigger
+the boot process, so stay close to the keyboard ;)
+
+You can now test the setup, see __Test sample configuration__.
+
+
+## Further remarks
+
+### Syslinux commands
+
+Modify `DEFAULT hdt` to any label specified in the Syslinux configuration file.
+
+With
+
+```
+MENU BACKGROUND splash.png
+```
+
+you can specify a splash screen image to display.
+
+### Windows ISO Images without using MEMDISK
+
+The article
+http://superuser.com/questions/740448/multiple-windows-installers-on-a-usb-stick
+expplains in detail how to create a bootable USB drive with a bootable Windows
+without extra partitions and without the use of MEMDISK.
+Make sure to read both the question and the answer.
+
+The proposed way has many benefits.  Booting the Windows image is much
+faster, since no RAMDISK has to be created.  Furthermore, the target device does
+not need to have that much memory (for Windows 7 >6GB).
+
+
+
